@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
@@ -99,5 +100,25 @@ namespace ProjectCeleste.Misc.Utils.Extension
 
             return sb.ToString();
         }
+
+        #region ThrowIf
+
+        /// <summary>
+        ///     Throws an ArgumentNullException if the given data item is null.
+        /// </summary>
+        /// <param name="data">The item to check for nullity.</param>
+        /// <param name="name">The name to use when throwing an exception, if necessary</param>
+        /// <exception cref="ArgumentNullException"><paramref name="data" /> is <c>null</c>.</exception>
+        [UsedImplicitly]
+        [ContractAnnotation("data:null => halt")]
+        public static void ThrowIfNullOrEmpty<T>([CanBeNull] this IEnumerable<T> data, string name = null)
+        {
+            if (data?.Any() != true)
+            {
+                throw name == null ? new ArgumentNullException() : new ArgumentNullException(name);
+            }
+        }
+
+        #endregion
     }
 }
