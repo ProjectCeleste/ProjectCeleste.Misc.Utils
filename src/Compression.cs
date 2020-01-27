@@ -10,7 +10,7 @@ namespace ProjectCeleste.Misc.Utils
 {
     public static class CompressionUtils
     {
-        private const int CompressBufferSize = 64 * FileUtils.Kb;
+        private const int CompressBufferSize = 4 * FileUtils.Kb;
 
         [UsedImplicitly]
         [NotNull]

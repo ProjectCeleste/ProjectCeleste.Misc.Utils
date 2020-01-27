@@ -14,7 +14,7 @@ namespace ProjectCeleste.Misc.Utils
 {
     public static class ZipFileUtils
     {
-        private const int BufferSize = 64 * FileUtils.Kb;
+        private const int BufferSize = 4 * FileUtils.Kb;
 
         [UsedImplicitly]
         [Obsolete("Use System.IO.Compression.ZipFile.ExtractToDirectory() instead")]
