@@ -263,6 +263,8 @@ deploy:
     server: https://nuget.pkg.github.com/ProjectCeleste/index.json
     api_key: '$(access_token)'
     username: '$(github_user)'
+    skip_symbols: true
+    symbol_server:           # remove to push symbols to SymbolSource.org
     artifact: /.nupkg/
     on:
       Celeste_IsDeploy: true
