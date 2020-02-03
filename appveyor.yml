@@ -223,8 +223,10 @@ artifacts:
   - path: 'src\bin\$(CONFIGURATION)'
     name: ProjectCeleste.Misc.Utils
     type: zip
-  - path: 'src\bin\Release\ProjectCeleste.Misc.Utils.*.*nupkg'
+  - path: 'src\bin\Release\*.nupkg'
     name: NuGet_Package
+  - path: 'src\bin\Release\*.snupkg'
+    name: NuGet_Symbols
     
 #---------------------------------#
 #     deployment configuration    #
@@ -254,7 +256,7 @@ deploy:
       secure: JurVq4I9wOP95B7ZAerkZlt/+f5MOQahoOCk9ScEA4bF6PIWe6iwEIMjhyUnnWgX
     skip_symbols: false
     symbol_server:           # remove to push symbols to SymbolSource.org
-    artifact: NuGet_Package
+    artifact: NuGet_Package, NuGet_Symbols
     on:
       Celeste_IsDeploy: true
 
@@ -263,9 +265,7 @@ deploy:
     server: https://nuget.pkg.github.com/ProjectCeleste/index.json
     api_key: '$(access_token)'
     username: '$(github_user)'
-    skip_symbols: true
-    symbol_server:           # remove to push symbols to SymbolSource.org
-    artifact: /.nupkg/
+    artifact: NuGet_Package
     on:
       Celeste_IsDeploy: true
  
