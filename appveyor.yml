@@ -110,6 +110,8 @@ nuget:
 # environment variables
 environment:
   APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
+  WEBHOOK_URL:
+    secure: /CbpdEUrM8BKgl32Anwi+Mx3FcbTymOrcrW8oIDoyOQwL6Nv7jmaAk6H1jvfiYj7hrJZOOOfHOXN55viX3KU+woHrkMHSBFAY+4fx/JBjkFfIvPlLy7S9w/vcVHLwiiTekriXels25aPzzLMTapnVMlx/uSxxSTGMflqfZbwvzQ=
   access_token:
     secure: FCfA6NOUpYu23Acwkb5xfB0fI9iOtw7t7maO76F/0Qu0XTMAXnjLa33b8LUTahEY
   github_email:
@@ -281,7 +283,7 @@ after_deploy:
 
 # on successful build
 on_success:
-- ps: |
+  - ps: |
     if ($env:Celeste_IsTagAndRelease -eq "true")
     {
         $env:GIT_REDIRECT_STDERR = '2>&1'
@@ -306,9 +308,13 @@ on_success:
         git tag -f "$env:APPVEYOR_REPO_TAG_NAME"
         git push --tags --force
     }
+  - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+  - ps: ./send.ps1 success $env:WEBHOOK_URL
 
 # on build failure
 on_failure:
+  - ps: Invoke-RestMethod https://raw.githubusercontent.com/DiscordHooks/appveyor-discord-webhook/master/send.ps1 -o send.ps1
+  - ps: ./send.ps1 failure $env:WEBHOOK_URL
 
 # after build failure or success
 on_finish:
