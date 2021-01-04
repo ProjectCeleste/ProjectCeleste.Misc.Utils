@@ -171,5 +171,20 @@ namespace ProjectCeleste.Misc.Utils
 
             zip.Save(outFileName);
         }
+
+        public static void ZipContents(Dictionary<string, string> mappedPathsToContents, MemoryStream stream)
+        {
+            using (var zip = new Ionic.Zip.ZipFile
+            {
+                CompressionLevel = CompressionLevel.BestCompression,
+                UseZip64WhenSaving = Zip64Option.AsNecessary
+            })
+            {
+                foreach (var entry in mappedPathsToContents)
+                    zip.AddEntry(entry.Key, entry.Value);
+
+                zip.Save(stream);
+            }
+        }
     }
 }
