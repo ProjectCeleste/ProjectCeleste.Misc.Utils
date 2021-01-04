@@ -1,135 +1,90 @@
 ﻿using System.IO;
 using System.Text;
 using System.Xml;
-using System.Xml.Linq;
 using System.Xml.Serialization;
-using JetBrains.Annotations;
-using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
 {
+    public class Utf8StringWriter : StringWriter
+    {
+        public override Encoding Encoding => Encoding.UTF8;
+    }
+
     public static class XmlUtils
     {
-        [UsedImplicitly]
-        public static void SerializeToXmlFile<T>([NotNull] T serializableObject, [NotNull] string filePath,
-            [NotNull] Encoding encoding,
-            bool backup = true, [NotNull] string backupExt = ".bak") where T : class
+        public static string ToXml(this object serializableObject)
         {
-            serializableObject.ThrowIfNull(nameof(serializableObject));
-            filePath.ThrowIfNullOrWhiteSpace(nameof(filePath));
-            backupExt.ThrowIfNullOrWhiteSpace(nameof(backupExt));
-            encoding.ThrowIfNull(nameof(encoding));
-
-            var xml = SerializeToXml(serializableObject, encoding);
-
-            if (File.Exists(filePath))
-            {
-                if (backup)
-                {
-                    var backupFile = $"{filePath}.bak";
-
-                    if (File.Exists(backupFile))
-                        File.Delete(backupFile);
-
-                    File.Move(filePath, backupFile);
-                }
-
-                File.Delete(filePath);
-            }
-
-            File.WriteAllText(filePath, xml, encoding);
+            return SerializeToString(serializableObject);
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string SerializeToXml<T>([NotNull] T serializableObject, [NotNull] Encoding encoding)
-            where T : class
+        public static void SerializeToXmlFile(this object objectToSerialize, string xmlFilePath, bool backupOldXmlFile = true)
         {
-            serializableObject.ThrowIfNull(nameof(serializableObject));
-            encoding.ThrowIfNull(nameof(encoding));
-
-            string output;
-            var serializer = new XmlSerializer(serializableObject.GetType());
-            var settings = new XmlWriterSettings
+            if (backupOldXmlFile && File.Exists(xmlFilePath))
             {
-                Encoding = Encoding.UTF8,
-                Indent = true,
-                OmitXmlDeclaration = true,
-                NewLineHandling = NewLineHandling.None
-            };
+                var backupFile = $"{xmlFilePath}.bak";
+
+                File.Delete(backupFile);
+                File.Move(xmlFilePath, backupFile);
+            }
+
+            var serializer = new XmlSerializer(objectToSerialize.GetType());
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
-            using (var stringWriter = new StringWriterWithEncoding(encoding))
-            {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, settings))
-                {
-                    serializer.Serialize(xmlWriter, serializableObject, ns);
-                }
 
-                output = stringWriter.ToString();
-            }
+            using var stringWriter = File.Open(xmlFilePath, FileMode.Create);
+            using var xmlWriter = XmlWriter.Create(stringWriter, xmlWriterSettings);
 
-            return output;
+            serializer.Serialize(xmlWriter, objectToSerialize, ns);
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T DeserializeFromXmlFile<T>([NotNull] string filePath, [NotNull] Encoding encoding)
-            where T : class
+        private static readonly XmlWriterSettings xmlWriterSettings = new XmlWriterSettings
         {
-            filePath.ThrowIfNullOrWhiteSpace(nameof(filePath));
-            encoding.ThrowIfNull(nameof(encoding));
+            Encoding = Encoding.UTF8,
+            Indent = true,
+            OmitXmlDeclaration = true,
+            NewLineHandling = NewLineHandling.None
+        };
 
-            return DeserializeFromXml<T>(File.ReadAllText(filePath, encoding), encoding);
+        public static string SerializeToString(object objectToSerialize)
+        {
+            if (objectToSerialize == null)
+                return null;
+
+            var serializer = new XmlSerializer(objectToSerialize.GetType());
+            var ns = new XmlSerializerNamespaces();
+            ns.Add(string.Empty, string.Empty);
+
+            using var stringWriter = new Utf8StringWriter();
+            using var xmlWriter = XmlWriter.Create(stringWriter, xmlWriterSettings);
+            serializer.Serialize(xmlWriter, objectToSerialize, ns);
+
+            return stringWriter.ToString();
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T DeserializeFromXml<T>([NotNull] string xml, [NotNull] Encoding encoding) where T : class
+        public static T DeserializeFromFile<T>(string xmlFilePath) where T : class
         {
-            xml.ThrowIfNullOrWhiteSpace(nameof(xml));
-            encoding.ThrowIfNull(nameof(encoding));
+            if (!File.Exists(xmlFilePath))
+                return null;
 
-            T output;
-            var serializer = new XmlSerializer(typeof(T));
-            using (var ms = new MemoryStream(encoding.GetBytes(xml)))
-            {
-                output = (T) serializer.Deserialize(ms);
-            }
+            var xmlFileInfo = new FileInfo(xmlFilePath);
+            if (xmlFileInfo.Length == 0)
+                return null;
 
-            return output;
+            var xmls = new XmlSerializer(typeof(T));
+            using var fr = xmlFileInfo.OpenRead();
+
+            return (T)xmls.Deserialize(fr);
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string PrettyXml([NotNull] string xml, [NotNull] Encoding encoding)
+        public static T DeserializeFromString<T>(string xmlString) where T : class
         {
-            xml.ThrowIfNullOrWhiteSpace(nameof(xml));
-            encoding.ThrowIfNull(nameof(encoding));
+            if (string.IsNullOrEmpty(xmlString))
+                return null;
 
-            string output;
-            var xmlDoc = XDocument.Parse(xml);
-            using (var stringWriter = new StringWriterWithEncoding(encoding))
-            {
-                using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings
-                {
-                    Encoding = Encoding.UTF8,
-                    Indent = true,
-                    OmitXmlDeclaration = false,
-                    NewLineHandling = NewLineHandling.None
-                }))
-                {
-                    xmlDoc.Save(xmlWriter);
-                }
+            var xmls = new XmlSerializer(typeof(T));
+            using var sr = new StringReader(xmlString);
 
-                output = stringWriter.ToString();
-            }
-
-            return output;
+            return (T)xmls.Deserialize(sr);
         }
     }
 }
