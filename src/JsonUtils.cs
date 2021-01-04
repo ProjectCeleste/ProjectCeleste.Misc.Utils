@@ -17,8 +17,6 @@ namespace ProjectCeleste.Misc.Utils
             backupExt.ThrowIfNullOrWhiteSpace(nameof(backupExt));
             encoding.ThrowIfNull(nameof(encoding));
 
-            var xml = serializableObject.SerializeToJson(encoding);
-
             if (File.Exists(filePath))
             {
                 if (backup)
@@ -34,16 +32,18 @@ namespace ProjectCeleste.Misc.Utils
                 File.Delete(filePath);
             }
 
-            File.WriteAllText(filePath, xml, Encoding.UTF8);
+            using var file = File.CreateText(filePath);
+
+            var serializer = new JsonSerializer();
+            serializer.Serialize(file, serializableObject);
         }
 
         [UsedImplicitly]
         [NotNull]
         [Pure]
-        public static string SerializeToJson<T>([NotNull] this T value, Encoding encoding) where T : class
+        public static string SerializeToJson<T>([NotNull] this T value) where T : class
         {
             value.ThrowIfNull(nameof(value));
-            encoding.ThrowIfNull(nameof(encoding));
 
             return JsonConvert.SerializeObject(value, Formatting.Indented);
         }
@@ -51,10 +51,9 @@ namespace ProjectCeleste.Misc.Utils
         [UsedImplicitly]
         [NotNull]
         [Pure]
-        public static T DeserializeFromJson<T>([NotNull] string json, Encoding encoding) where T : class
+        public static T DeserializeFromJson<T>([NotNull] string json) where T : class
         {
             json.ThrowIfNullOrWhiteSpace(nameof(json));
-            encoding.ThrowIfNull(nameof(encoding));
 
             return JsonConvert.DeserializeObject<T>(json);
         }
@@ -62,12 +61,14 @@ namespace ProjectCeleste.Misc.Utils
         [UsedImplicitly]
         [NotNull]
         [Pure]
-        public static T DeserializeFromJsonFile<T>([NotNull] string filePath, Encoding encoding) where T : class
+        public static T DeserializeFromJsonFile<T>([NotNull] string filePath) where T : class
         {
             filePath.ThrowIfNullOrWhiteSpace(nameof(filePath));
-            encoding.ThrowIfNull(nameof(encoding));
 
-            return DeserializeFromJson<T>(File.ReadAllText(filePath, encoding), encoding);
+            using var file = File.OpenText(filePath);
+            var jsonSerializer = new JsonSerializer();
+
+            return (T)jsonSerializer.Deserialize(file, typeof(T));
         }
     }
 }
