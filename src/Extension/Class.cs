@@ -1,5 +1,4 @@
-﻿using System.Text;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace ProjectCeleste.Misc.Utils.Extension
@@ -13,25 +12,24 @@ namespace ProjectCeleste.Misc.Utils.Extension
         [Pure]
         public static T DeepCopyUsingXml<T>([NotNull] this T value) where T : class
         {
-            var xml = XmlUtils.SerializeToXml(value, Encoding.UTF8);
-            return XmlUtils.DeserializeFromXml<T>(xml, Encoding.UTF8);
+            var xml = XmlUtils.SerializeToString(value);
+            return XmlUtils.DeserializeFromString<T>(xml);
         }
 
         [UsedImplicitly]
         public static void SerializeToXmlFile<T>([NotNull] this T serializableObject, [NotNull] string xmlFilePath,
-            [NotNull] Encoding encoding,
-            bool backup = true, [NotNull] string backupExt = ".bak") where T : class
+            bool backup = true) where T : class
         {
-            XmlUtils.SerializeToXmlFile(serializableObject, xmlFilePath, encoding, backup, backupExt);
+            XmlUtils.SerializeToXmlFile(serializableObject, xmlFilePath, backup);
         }
 
         [UsedImplicitly]
         [NotNull]
         [Pure]
-        public static string SerializeToXml<T>([NotNull] this T serializableObject, [NotNull] Encoding encoding)
+        public static string SerializeToXml<T>([NotNull] this T serializableObject)
             where T : class
         {
-            return XmlUtils.SerializeToXml(serializableObject, encoding);
+            return XmlUtils.SerializeToString(serializableObject);
         }
 
         #endregion
