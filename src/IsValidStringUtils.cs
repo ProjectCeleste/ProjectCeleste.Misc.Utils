@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
@@ -49,6 +50,10 @@ namespace ProjectCeleste.Misc.Utils
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
+        public static bool IsValidEmailAdress(string emailAdress)
+        {
+            return !string.IsNullOrWhiteSpace(emailAdress) && Regex.IsMatch(emailAdress, MatchEmailPattern);
+        }
         #endregion
 
         #region UserName
@@ -98,6 +103,11 @@ namespace ProjectCeleste.Misc.Utils
 #pragma warning restore CA1031 // Do not catch general exception types
         }
 
+        public static bool IsValidUserName(string userName)
+        {
+            return !string.IsNullOrWhiteSpace(userName) && Regex.IsMatch(userName, MatchUserNamePattern);
+        }
+
         #endregion
 
         #region Password
@@ -136,6 +146,11 @@ namespace ProjectCeleste.Misc.Utils
                 return false;
             }
 #pragma warning restore CA1031 // Do not catch general exception types
+        }
+
+        public static bool IsValidPassword(string password)
+        {
+            return !string.IsNullOrWhiteSpace(password);
         }
 
         #endregion
