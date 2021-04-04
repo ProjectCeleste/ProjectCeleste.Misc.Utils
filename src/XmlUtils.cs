@@ -49,16 +49,27 @@ namespace ProjectCeleste.Misc.Utils
         {
             if (objectToSerialize == null)
                 return null;
+            
+            using var stringWriter = new Utf8StringWriter();
+            using var xmlWriter = new XmlTextWriter(stringWriter);
+            xmlWriter.Formatting = Formatting.Indented;
+            xmlWriter.Indentation = 2;
+            Serialize(xmlWriter, objectToSerialize);
+
+            return stringWriter.ToString();
+        }
+
+        public static void Serialize(XmlWriter stream, object objectToSerialize)
+        {
+            if (objectToSerialize == null)
+                return;
 
             var serializer = new XmlSerializer(objectToSerialize.GetType());
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
 
-            using var stringWriter = new Utf8StringWriter();
-            using var xmlWriter = XmlWriter.Create(stringWriter, xmlWriterSettings);
+            using var xmlWriter = XmlWriter.Create(stream, xmlWriterSettings);
             serializer.Serialize(xmlWriter, objectToSerialize, ns);
-
-            return stringWriter.ToString();
         }
 
         public static T DeserializeFromFile<T>(string xmlFilePath) where T : class
@@ -85,6 +96,12 @@ namespace ProjectCeleste.Misc.Utils
             using var sr = new StringReader(xmlString);
 
             return (T)xmls.Deserialize(sr);
+        }
+
+        public static T DeserializeFromStream<T>(XmlTextReader reader) where T : class
+        {
+            var xmls = new XmlSerializer(typeof(T));
+            return (T)xmls.Deserialize(reader);
         }
     }
 }
