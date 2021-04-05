@@ -53,17 +53,15 @@ namespace ProjectCeleste.Misc.Utils
         {
             if (objectToSerialize == null)
                 return null;
-            
+
             using var stringWriter = new Utf8StringWriter();
-            using var xmlWriter = new XmlTextWriter(stringWriter);
-            xmlWriter.Formatting = Formatting.Indented;
-            xmlWriter.Indentation = 2;
+            using var xmlWriter = XmlWriter.Create(stringWriter, xmlWriterSettings);
             Serialize(xmlWriter, objectToSerialize);
 
             return stringWriter.ToString();
         }
 
-        public static void Serialize(XmlWriter stream, object objectToSerialize)
+        public static void Serialize(XmlWriter xmlWriter, object objectToSerialize)
         {
             if (objectToSerialize == null)
                 return;
@@ -72,7 +70,6 @@ namespace ProjectCeleste.Misc.Utils
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
 
-            using var xmlWriter = XmlWriter.Create(stream, xmlWriterSettings);
             serializer.Serialize(xmlWriter, objectToSerialize, ns);
         }
 
