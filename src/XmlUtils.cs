@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
@@ -12,6 +14,8 @@ namespace ProjectCeleste.Misc.Utils
 
     public static class XmlUtils
     {
+        private static Dictionary<string, XmlSerializer> cachedXmlSerializers = new Dictionary<string, XmlSerializer>();
+
         public static string ToXml(this object serializableObject)
         {
             return SerializeToString(serializableObject);
@@ -64,7 +68,7 @@ namespace ProjectCeleste.Misc.Utils
             if (objectToSerialize == null)
                 return;
 
-            var serializer = new XmlSerializer(objectToSerialize.GetType());
+            var serializer = GetXmlSerializer(objectToSerialize.GetType());
             var ns = new XmlSerializerNamespaces();
             ns.Add(string.Empty, string.Empty);
 
@@ -81,7 +85,7 @@ namespace ProjectCeleste.Misc.Utils
             if (xmlFileInfo.Length == 0)
                 return null;
 
-            var xmls = new XmlSerializer(typeof(T));
+            var xmls = GetXmlSerializer(typeof(T));
             using var fr = xmlFileInfo.OpenRead();
 
             return (T)xmls.Deserialize(fr);
@@ -92,7 +96,7 @@ namespace ProjectCeleste.Misc.Utils
             if (string.IsNullOrEmpty(xmlString))
                 return null;
 
-            var xmls = new XmlSerializer(typeof(T));
+            var xmls = GetXmlSerializer(typeof(T));
             using var sr = new StringReader(xmlString);
 
             return (T)xmls.Deserialize(sr);
@@ -100,8 +104,27 @@ namespace ProjectCeleste.Misc.Utils
 
         public static T DeserializeFromStream<T>(XmlTextReader reader) where T : class
         {
-            var xmls = new XmlSerializer(typeof(T));
+            var xmls = GetXmlSerializer(typeof(T));
             return (T)xmls.Deserialize(reader);
+        }
+
+        private static XmlSerializer GetXmlSerializer(Type type)
+        {
+            var key = type.ToString();
+
+            lock (cachedXmlSerializers)
+            {
+                if (cachedXmlSerializers.TryGetValue(key, out var cachedSerializer))
+                {
+                    return cachedSerializer;
+                }
+                else
+                {
+                    var serializer = new XmlSerializer(type);
+                    cachedXmlSerializers.Add(key, serializer);
+                    return serializer;
+                }
+            }
         }
     }
 }
