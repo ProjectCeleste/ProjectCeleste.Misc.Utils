@@ -75,17 +75,24 @@ namespace ProjectCeleste.Misc.Utils
 
         public static T DeserializeFromFile<T>(string xmlFilePath) where T : class
         {
-            if (!File.Exists(xmlFilePath))
-                return null;
+            try
+            {
+                if (!File.Exists(xmlFilePath))
+                    return null;
 
-            var xmlFileInfo = new FileInfo(xmlFilePath);
-            if (xmlFileInfo.Length == 0)
-                return null;
+                var xmlFileInfo = new FileInfo(xmlFilePath);
+                if (xmlFileInfo.Length == 0)
+                    return null;
 
-            var xmls = GetXmlSerializer(typeof(T));
-            using var fr = xmlFileInfo.OpenRead();
+                var xmls = GetXmlSerializer(typeof(T));
+                using var fr = xmlFileInfo.OpenRead();
 
-            return (T)xmls.Deserialize(fr);
+                return (T)xmls.Deserialize(fr);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An exception was thrown while reading the XML file {xmlFilePath}", ex);
+            }
         }
 
         public static T DeserializeFromString<T>(string xmlString) where T : class
