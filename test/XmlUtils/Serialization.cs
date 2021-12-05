@@ -84,7 +84,7 @@ namespace ProjectCeleste.Misc.Utils.Tests.XmlUtils
 
                 // Assert
                 var fileContents = File.ReadAllText(xmlFilePath);
-                fileContents.Should().Be("<data content=\"🧙\">\r\n  <element amount=\"1\" />\r\n</data>");
+                fileContents.Should().Be($"<data content=\"🧙\">{Environment.NewLine}  <element amount=\"1\" />{Environment.NewLine}</data>");
             }
         }
 
@@ -106,7 +106,7 @@ namespace ProjectCeleste.Misc.Utils.Tests.XmlUtils
                 var xml = Utils.XmlUtils.SerializeToString(objectToSerialize);
 
                 // Assert
-                xml.Should().Be("<data content=\"🧙\">\r\n  <element amount=\"1\" />\r\n</data>");
+                xml.Should().Be($"<data content=\"🧙\">{Environment.NewLine}  <element amount=\"1\" />{Environment.NewLine}</data>");
             }
         }
     }
