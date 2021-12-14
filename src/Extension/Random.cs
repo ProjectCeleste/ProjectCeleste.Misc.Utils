@@ -1,9 +1,7 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
-    [UsedImplicitly]
     public static class RandomExtension
     {
         /// <summary>
@@ -21,9 +19,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
         ///     If minValue equals maxValue, minValue is returned.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
-        [UsedImplicitly]
-        [Pure]
-        public static long NextLong([NotNull] this Random random, long minValue, long maxValue)
+        public static long NextLong(this Random random, long minValue, long maxValue)
         {
             random.ThrowIfNull(nameof(random));
 

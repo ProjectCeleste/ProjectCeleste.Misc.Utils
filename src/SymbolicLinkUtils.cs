@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
-using JetBrains.Annotations;
 using Microsoft.Win32.SafeHandles;
 using ProjectCeleste.Misc.Utils.Extension;
 
@@ -25,8 +24,7 @@ namespace ProjectCeleste.Misc.Utils
         private static extern bool CreateSymbolicLink(string lpSymlinkFileName, string lpTargetFileName,
             SymbolicLinkFlag dwFlags);
 
-        [UsedImplicitly]
-        public static bool CreateSymLink([NotNull] string lpSymlinkFileName, [NotNull] string lpTargetFileName)
+        public static bool CreateSymLink(string lpSymlinkFileName, string lpTargetFileName)
         {
             lpSymlinkFileName.ThrowIfNullOrWhiteSpace(nameof(lpSymlinkFileName));
             lpTargetFileName.ThrowIfNullOrWhiteSpace(nameof(lpTargetFileName));
@@ -35,8 +33,7 @@ namespace ProjectCeleste.Misc.Utils
                 DirectoryUtils.IsDirectory(lpTargetFileName) ? SymbolicLinkFlag.Directory : SymbolicLinkFlag.File);
         }
 
-        [UsedImplicitly]
-        public static bool CreateSymLink([NotNull] string lpSymlinkFileName, [NotNull] string lpTargetFileName,
+        public static bool CreateSymLink(string lpSymlinkFileName, string lpTargetFileName,
             SymbolicLinkFlag dwFlags)
         {
             lpSymlinkFileName.ThrowIfNullOrWhiteSpace(nameof(lpSymlinkFileName));
@@ -45,9 +42,7 @@ namespace ProjectCeleste.Misc.Utils
             return CreateSymbolicLink(lpSymlinkFileName, lpTargetFileName, dwFlags);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool IsSymLinkPath([NotNull] string path)
+        public static bool IsSymLinkPath(string path)
         {
             path.ThrowIfNullOrWhiteSpace(nameof(path));
 
@@ -55,9 +50,7 @@ namespace ProjectCeleste.Misc.Utils
                 DirectoryUtils.IsDirectory(path) ? SymbolicLinkFlag.Directory : SymbolicLinkFlag.File);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool IsSymLinkPath([NotNull] string path, SymbolicLinkFlag dwFlags)
+        public static bool IsSymLinkPath(string path, SymbolicLinkFlag dwFlags)
         {
             path.ThrowIfNullOrWhiteSpace(nameof(path));
 
@@ -78,10 +71,7 @@ namespace ProjectCeleste.Misc.Utils
         private static extern int GetFinalPathNameByHandle([In] IntPtr hFile, [Out] StringBuilder lpszFilePath,
             [In] int cchFilePath, [In] int dwFlags);
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string GetSymLinkRealPath([NotNull] string path)
+        public static string GetSymLinkRealPath(string path)
         {
             path.ThrowIfNullOrWhiteSpace(nameof(path));
 

@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Security;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class SecureStringExtensions
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string GetValue([NotNull] this SecureString secureString)
+        public static string GetValue(this SecureString secureString)
         {
             secureString.ThrowIfNull(nameof(secureString));
 

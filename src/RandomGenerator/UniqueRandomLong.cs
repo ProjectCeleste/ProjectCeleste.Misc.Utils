@@ -1,36 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils.RandomGenerator
 {
-    [UsedImplicitly]
     public class UniqueRandomLongGeneratorAlt
     {
         private IList<long> _excludeNumbers;
         private readonly UniqueRandomLongGenerator _uniqueRandomLongGenerator;
 
-        public UniqueRandomLongGeneratorAlt([Range(long.MinValue, long.MaxValue - 1)]
-            long min = long.MinValue, [Range(long.MinValue + 1, long.MaxValue)]
+        public UniqueRandomLongGeneratorAlt(
+            long min = long.MinValue,
             long max = long.MaxValue,
-            [CanBeNull] IEnumerable<long> excludeNumbers = null)
+            IEnumerable<long> excludeNumbers = null)
         {
             _uniqueRandomLongGenerator = new UniqueRandomLongGenerator(min, max);
             _excludeNumbers = excludeNumbers as List<long> ?? excludeNumbers?.ToList() ?? new List<long>();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public long Next()
         {
             return _uniqueRandomLongGenerator.Next(ref _excludeNumbers);
         }
     }
 
-    [UsedImplicitly]
     public class UniqueRandomLongGenerator
     {
         private readonly long _randomMaxReTry = 25000 * Environment.ProcessorCount;
@@ -39,8 +33,8 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         private readonly long _maxValue;
         private Random _random;
 
-        public UniqueRandomLongGenerator([Range(long.MinValue, long.MaxValue - 1)]
-            long min = long.MinValue, [Range(long.MinValue + 1, long.MaxValue)]
+        public UniqueRandomLongGenerator(
+            long min = long.MinValue,
             long max = long.MaxValue)
         {
             if (min > max)
@@ -58,9 +52,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
             _random = new Random(r.Next(int.MinValue, int.MaxValue));
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public long Next([NotNull] ref IList<long> excludeNumbers)
+        public long Next(ref IList<long> excludeNumbers)
         {
             lock (_syncLock)
             {

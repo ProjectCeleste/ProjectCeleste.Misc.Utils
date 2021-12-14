@@ -1,20 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class StringExtensions
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string WrapIfLengthIsLongerThan([NotNull] this string value,
-            [Range(0, int.MaxValue)] int maxLength,
-            [NotNull] string prefix = "")
+        public static string WrapIfLengthIsLongerThan(this string value,
+            int maxLength,
+            string prefix = "")
         {
             if (string.IsNullOrWhiteSpace(value))
                 return string.Empty;
@@ -28,10 +23,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
             return prefix + value.Substring(cutIndex);
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static SecureString ToSecureString([NotNull] this string value)
+        public static SecureString ToSecureString(this string value)
         {
             value.ThrowIfNullOrWhiteSpace(nameof(value));
 
@@ -42,9 +34,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
             return secureString;
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static T StringToEnum<T>([CanBeNull] this string input, T defaultValue = default,
+        public static T StringToEnum<T>(this string input, T defaultValue = default,
             bool isNullable = false)
         {
             if (string.IsNullOrWhiteSpace(input) && isNullable &&
@@ -58,9 +48,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
                 : defaultValue;
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool EnumTryParse<T>([NotNull] this string input, out T theEnum)
+        public static bool EnumTryParse<T>(this string input, out T theEnum)
         {
             input.ThrowIfNullOrWhiteSpace(nameof(input));
 
@@ -85,9 +73,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
         /// <param name="data">The item to check for nullity.</param>
         /// <param name="name">The name to use when throwing an exception, if necessary</param>
         /// <exception cref="ArgumentNullException"></exception>
-        [UsedImplicitly]
-        [ContractAnnotation("data:null => halt")]
-        public static void ThrowIfNullOrEmpty([CanBeNull] this string data, string name = null)
+        public static void ThrowIfNullOrEmpty(this string data, string name = null)
         {
             if (string.IsNullOrEmpty(data))
             {
@@ -101,9 +87,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
         /// <param name="data">The item to check for nullity.</param>
         /// <param name="name">The name to use when throwing an exception, if necessary</param>
         /// <exception cref="ArgumentNullException"></exception>
-        [UsedImplicitly]
-        [ContractAnnotation("data:null => halt")]
-        public static void ThrowIfNullOrWhiteSpace([CanBeNull] this string data, string name = null)
+        public static void ThrowIfNullOrWhiteSpace(this string data, string name = null)
         {
             if (string.IsNullOrWhiteSpace(data))
             {
@@ -121,10 +105,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
         /// <exception cref="ArgumentNullException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         /// <exception cref="ArgumentException"></exception>
-        [UsedImplicitly]
-        [ContractAnnotation("data:null => halt")]
-        [ContractAnnotation("pattern:null => halt")]
-        public static void ThrowIfNotMatchRegEx([NotNull] this string data, [NotNull] [RegexPattern] string pattern,
+        public static void ThrowIfNotMatchRegEx(this string data, string pattern,
             string name = null, RegexOptions regexOptions = RegexOptions.None)
         {
             if (Regex.IsMatch(data, pattern, regexOptions))

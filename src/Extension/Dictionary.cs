@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class DictionaryExtensions
     {
-        [UsedImplicitly]
-        public static TValue GetOrAdd<TKey, TValue>([NotNull] this IDictionary<TKey, TValue> dictionary,
-            [NotNull] TKey key,
-            [NotNull] Func<TValue> valueProvider)
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            Func<TValue> valueProvider)
         {
             dictionary.ThrowIfNull(nameof(dictionary));
             key.ThrowIfNull(nameof(key));
@@ -23,10 +21,9 @@ namespace ProjectCeleste.Misc.Utils.Extension
             return ret;
         }
 
-        [UsedImplicitly]
-        public static TValue GetOrAdd<TKey, TValue>([NotNull] this IDictionary<TKey, TValue> dictionary,
-            [NotNull] TKey key,
-            [NotNull] TValue value)
+        public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+            TKey key,
+            TValue value)
         {
             dictionary.ThrowIfNull(nameof(dictionary));
             key.ThrowIfNull(nameof(key));
@@ -39,9 +36,8 @@ namespace ProjectCeleste.Misc.Utils.Extension
             return ret;
         }
 
-        [UsedImplicitly]
-        public static bool ChangeKey<TKey, TValue>([NotNull] this IDictionary<TKey, TValue> dictionary,
-            [NotNull] TKey oldKey, [NotNull] TKey newKey, out Exception exception)
+        public static bool ChangeKey<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,
+            TKey oldKey, TKey newKey, out Exception exception)
         {
             dictionary.ThrowIfNull(nameof(dictionary));
             oldKey.ThrowIfNull(nameof(oldKey));

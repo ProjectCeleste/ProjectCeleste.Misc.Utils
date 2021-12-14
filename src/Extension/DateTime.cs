@@ -1,5 +1,4 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
@@ -19,8 +18,6 @@ namespace ProjectCeleste.Misc.Utils.Extension
         /// </summary>
         /// <param name="date"></param>
         /// <returns>Week of year</returns>
-        [UsedImplicitly]
-        [Pure]
         public static int WeekOfYear(this DateTime date)
         {
             var startOfYear = new DateTime(date.Year, 1, 1);

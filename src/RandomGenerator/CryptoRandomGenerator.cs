@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Security.Cryptography;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.RandomGenerator
 {
@@ -12,7 +11,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     Creates an instance of the default implementation of a cryptographic random number generator that can be used to
         ///     generate random data.
         /// </summary>
-        [UsedImplicitly]
         public CryptoRandomGenerator()
         {
             _r = RandomNumberGenerator.Create();
@@ -23,8 +21,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         /// </summary>
         /// <param name="buffer">An array of bytes to contain random numbers.</param>
         /// <exception cref="ArgumentNullException">buffer is a null reference (Nothing in Visual Basic).</exception>
-        [UsedImplicitly]
-        public void NextBytes([NotNull] byte[] buffer)
+        public void NextBytes(byte[] buffer)
         {
             _r.GetBytes(buffer);
         }
@@ -32,8 +29,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         /// <summary>
         ///     Returns a random number between 0.0 and 1.0.
         /// </summary>
-        [UsedImplicitly]
-        [Pure]
         public double NextDouble()
         {
             var b = new byte[4];
@@ -49,8 +44,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     The exclusive upper bound of the random number returned. maxValue must be greater than or equal
         ///     to minValue.
         /// </param>
-        [UsedImplicitly]
-        [Pure]
         public long NextLong(long minValue, long maxValue)
         {
             var range = maxValue - minValue;
@@ -60,8 +53,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         /// <summary>
         ///     Returns a nonnegative random number.
         /// </summary>
-        [UsedImplicitly]
-        [Pure]
         public long NextLong()
         {
             return NextLong(0, long.MaxValue);
@@ -74,8 +65,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     The inclusive upper bound of the random number returned. maxValue must be greater than or equal
         ///     0
         /// </param>
-        [UsedImplicitly]
-        [Pure]
         public long NextLong(long maxValue)
         {
             return NextLong(0, maxValue);
@@ -89,8 +78,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     The exclusive upper bound of the random number returned. maxValue must be greater than or equal
         ///     to minValue.
         /// </param>
-        [UsedImplicitly]
-        [Pure]
         public int Next(int minValue, int maxValue)
         {
             var range = (long) maxValue - minValue;
@@ -100,8 +87,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         /// <summary>
         ///     Returns a nonnegative random number.
         /// </summary>
-        [UsedImplicitly]
-        [Pure]
         public int Next()
         {
             return Next(0, int.MaxValue);
@@ -114,8 +99,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     The inclusive upper bound of the random number returned. maxValue must be greater than or equal
         ///     0
         /// </param>
-        [UsedImplicitly]
-        [Pure]
         public int Next(int maxValue)
         {
             return Next(0, maxValue);
@@ -139,7 +122,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
             _disposedValue = true;
         }
 
-        [UsedImplicitly]
         public void Dispose()
         {
             Dispose(true);

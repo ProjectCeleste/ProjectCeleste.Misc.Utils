@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
@@ -25,12 +24,7 @@ namespace ProjectCeleste.Misc.Utils
         /// <exception cref="ArgumentNullException">Is null or empty or white space</exception>
         /// <exception cref="ArgumentOutOfRangeException">Invalid length</exception>
         /// <exception cref="ArgumentException">Invalid pattern</exception>
-        [UsedImplicitly]
-        [ContractAnnotation("emailAddress:null => false")]
-        [ContractAnnotation("=> false, exception:notnull")]
-        [ContractAnnotation("=> true, exception:null")]
-        [Pure]
-        public static bool IsValidEmailAddress([CanBeNull] string emailAddress, out Exception exception)
+        public static bool IsValidEmailAddress(string emailAddress, out Exception exception)
         {
             try
             {
@@ -76,12 +70,7 @@ namespace ProjectCeleste.Misc.Utils
         /// <exception cref="ArgumentNullException">Is null or empty or white space</exception>
         /// <exception cref="ArgumentOutOfRangeException">Invalid length</exception>
         /// <exception cref="ArgumentException">Invalid pattern</exception>
-        [UsedImplicitly]
-        [ContractAnnotation("userName:null => false")]
-        [ContractAnnotation("=> false, exception:notnull")]
-        [ContractAnnotation("=> true, exception:null")]
-        [Pure]
-        public static bool IsValidUserName([CanBeNull] string userName, out Exception exception,
+        public static bool IsValidUserName(string userName, out Exception exception,
             bool allowClanTag = false)
         {
             try
@@ -123,12 +112,7 @@ namespace ProjectCeleste.Misc.Utils
         /// <exception cref="ArgumentNullException">Is null or empty or white space</exception>
         /// <exception cref="ArgumentOutOfRangeException">Invalid length</exception>
         /// <exception cref="ArgumentException">Invalid pattern</exception>
-        [UsedImplicitly]
-        [ContractAnnotation("password:null => false")]
-        [ContractAnnotation("=> false, exception:notnull")]
-        [ContractAnnotation("=> true, exception:null")]
-        [Pure]
-        public static bool IsValidPassword([CanBeNull] string password, out Exception exception)
+        public static bool IsValidPassword(string password, out Exception exception)
         {
             try
             {
@@ -167,12 +151,7 @@ namespace ProjectCeleste.Misc.Utils
         /// <exception cref="ArgumentNullException">Is null or empty or white space</exception>
         /// <exception cref="ArgumentOutOfRangeException">Invalid length</exception>
         /// <exception cref="ArgumentException">Invalid pattern</exception>
-        [UsedImplicitly]
-        [ContractAnnotation("verifyKey:null => false")]
-        [ContractAnnotation("=> false, exception:notnull")]
-        [ContractAnnotation("=> true, exception:null")]
-        [Pure]
-        public static bool IsValidVerifyKey([CanBeNull] string verifyKey, out Exception exception)
+        public static bool IsValidVerifyKey(string verifyKey, out Exception exception)
         {
             try
             {

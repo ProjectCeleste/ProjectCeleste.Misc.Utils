@@ -3,17 +3,13 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
 {
     public static class NetworkUtils
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static IPAddress GetLocalIp([NotNull] Socket activeSocket)
+        public static IPAddress GetLocalIp(Socket activeSocket)
         {
             activeSocket.ThrowIfNull(nameof(activeSocket));
 
@@ -23,9 +19,6 @@ namespace ProjectCeleste.Misc.Utils
             return ipEndPoint.Address;
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
         public static IPAddress GetIpAddress(uint ipAddress)
         {
             var addressBytes = BitConverter.GetBytes(ipAddress);
@@ -34,9 +27,7 @@ namespace ProjectCeleste.Misc.Utils
             return new IPAddress(addressBytes);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static uint GetIpAddress([NotNull] IPAddress ipAddress)
+        public static uint GetIpAddress(IPAddress ipAddress)
         {
             ipAddress.ThrowIfNull(nameof(ipAddress));
 
@@ -46,29 +37,22 @@ namespace ProjectCeleste.Misc.Utils
             return BitConverter.ToUInt32(addressBytes, 0);
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static uint NetworkToHostOrder(uint input)
         {
             return (uint) IPAddress.NetworkToHostOrder((int) input);
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static ulong NetworkToHostOrder(ulong input)
         {
             return (ulong) IPAddress.NetworkToHostOrder((long) input);
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static ushort NetworkToHostOrder(ushort input)
         {
             return (ushort) IPAddress.NetworkToHostOrder((short) input);
         }
 
-        [UsedImplicitly]
-        public static bool TryParseIpEndPoint([NotNull] string stringValue, [CanBeNull] out IPEndPoint? endPoint)
+        public static bool TryParseIpEndPoint(string stringValue, out IPEndPoint? endPoint)
         {
             stringValue.ThrowIfNullOrWhiteSpace(nameof(stringValue));
 
@@ -98,8 +82,6 @@ namespace ProjectCeleste.Misc.Utils
         [DllImport("wininet.dll")]
         private static extern bool InternetGetConnectedState(out int description, int reservedValue);
 
-        [UsedImplicitly]
-        [Pure]
         public static bool IsConnectedToInternet()
         {
             try

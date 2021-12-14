@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
@@ -15,8 +14,7 @@ namespace ProjectCeleste.Misc.Utils
 
         public const int Gb = Kb * Mb;
 
-        [UsedImplicitly]
-        public static async Task CopyFileAsync([NotNull] string sourceFile, [NotNull] string destinationFile,
+        public static async Task CopyFileAsync(string sourceFile, string destinationFile,
             CancellationToken cancellationToken = default)
         {
             sourceFile.ThrowIfNullOrWhiteSpace(nameof(sourceFile));
@@ -32,10 +30,9 @@ namespace ProjectCeleste.Misc.Utils
             await sourceStream.CopyToAsync(destinationStream, bufferSize, cancellationToken);
         }
 
-        [UsedImplicitly]
-        public static void MoveFile([NotNull] string sourceFile, [NotNull] string destinationFile,
+        public static void MoveFile(string sourceFile, string destinationFile,
             bool keepOld = true,
-            [NotNull] string oldExt = ".old")
+            string oldExt = ".old")
         {
             sourceFile.ThrowIfNullOrWhiteSpace(nameof(sourceFile));
             destinationFile.ThrowIfNullOrWhiteSpace(nameof(destinationFile));
@@ -62,18 +59,14 @@ namespace ProjectCeleste.Misc.Utils
             File.Move(sourceFile, destinationFile);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool IsFileLocked([NotNull] string filename)
+        public static bool IsFileLocked(string filename)
         {
             filename.ThrowIfNullOrWhiteSpace(nameof(filename));
 
             return IsFileLocked(new FileInfo(filename));
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool IsFileLocked([NotNull] FileInfo fileInfo)
+        public static bool IsFileLocked(FileInfo fileInfo)
         {
             fileInfo.ThrowIfNull(nameof(fileInfo));
 
@@ -98,9 +91,7 @@ namespace ProjectCeleste.Misc.Utils
             return false;
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool IsFile([NotNull] string path)
+        public static bool IsFile(string path)
         {
             path.ThrowIfNullOrWhiteSpace(nameof(path));
 

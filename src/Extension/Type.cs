@@ -2,15 +2,13 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class TypeExtensions
     {
-        [Pure]
-        private static ConstructorInfo GetConstructor([NotNull] this Type type,
-            [NotNull] [ItemNotNull] params Type[] argumentTypes)
+        private static ConstructorInfo GetConstructor(this Type type,
+            params Type[] argumentTypes)
         {
             type.ThrowIfNull(nameof(type));
             argumentTypes.ThrowIfNull(nameof(argumentTypes));
@@ -36,19 +34,15 @@ namespace ProjectCeleste.Misc.Utils.Extension
             throw new InvalidOperationException(sb.ToString());
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static Func<TResult> Ctor<TResult>([NotNull] this Type type)
+        public static Func<TResult> Ctor<TResult>(this Type type)
         {
             var ci = GetConstructor(type, Type.EmptyTypes);
             return Expression.Lambda<Func<TResult>>(
                 Expression.New(ci)).Compile();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static Func<TArg1, TResult>
-            Ctor<TArg1, TResult>([NotNull] this Type type)
+            Ctor<TArg1, TResult>(this Type type)
         {
             var ci = GetConstructor(type, typeof(TArg1));
             var
@@ -58,10 +52,8 @@ namespace ProjectCeleste.Misc.Utils.Extension
                 Expression.New(ci, param1), param1).Compile();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static Func<TArg1, TArg2, TResult>
-            Ctor<TArg1, TArg2, TResult>([NotNull] this Type type)
+            Ctor<TArg1, TArg2, TResult>(this Type type)
         {
             var ci = GetConstructor(type, typeof(TArg1), typeof(TArg2));
             ParameterExpression
@@ -72,10 +64,8 @@ namespace ProjectCeleste.Misc.Utils.Extension
                 Expression.New(ci, param1, param2), param1, param2).Compile();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static Func<TArg1, TArg2, TArg3, TResult>
-            Ctor<TArg1, TArg2, TArg3, TResult>([NotNull] this Type type)
+            Ctor<TArg1, TArg2, TArg3, TResult>(this Type type)
         {
             var ci = GetConstructor(type, typeof(TArg1), typeof(TArg2), typeof(TArg3));
             ParameterExpression
@@ -88,10 +78,8 @@ namespace ProjectCeleste.Misc.Utils.Extension
                 param1, param2, param3).Compile();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static Func<TArg1, TArg2, TArg3, TArg4, TResult>
-            Ctor<TArg1, TArg2, TArg3, TArg4, TResult>([NotNull] this Type type)
+            Ctor<TArg1, TArg2, TArg3, TArg4, TResult>(this Type type)
         {
             var ci = GetConstructor(type, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4));
             ParameterExpression
@@ -105,10 +93,8 @@ namespace ProjectCeleste.Misc.Utils.Extension
                 param1, param2, param3, param4).Compile();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static Func<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>
-            Ctor<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>([NotNull] this Type type)
+            Ctor<TArg1, TArg2, TArg3, TArg4, TArg5, TResult>(this Type type)
         {
             var ci = GetConstructor(type, typeof(TArg1), typeof(TArg2), typeof(TArg3), typeof(TArg4), typeof(TArg5));
             ParameterExpression

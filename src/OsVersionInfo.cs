@@ -1,7 +1,6 @@
 ﻿#region Using directives
 
 using System;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 #endregion
@@ -10,7 +9,7 @@ namespace ProjectCeleste.Misc.Utils
 {
     public sealed class OsVersionInfo
     {
-        internal OsVersionInfo([NotNull] string name, [NotNull] Version version)
+        internal OsVersionInfo(string name, Version version)
         {
             name.ThrowIfNullOrWhiteSpace(nameof(name));
             version.ThrowIfNull(nameof(version));
@@ -22,15 +21,15 @@ namespace ProjectCeleste.Misc.Utils
             FullName = "Microsoft " + Name + " [Version " + Major + "." + Minor + "." + Build + "]";
         }
 
-        [UsedImplicitly] [NotNull] public string Name { get; }
+        public string Name { get; }
 
-        [UsedImplicitly] [NotNull] public string FullName { get; }
+        public string FullName { get; }
 
-        [UsedImplicitly] public int Minor { get; }
+        public int Minor { get; }
 
-        [UsedImplicitly] public int Major { get; }
+        public int Major { get; }
 
-        [UsedImplicitly] public int Build { get; }
+        public int Build { get; }
     }
 
     public static class OsVersionUtils
@@ -42,9 +41,6 @@ namespace ProjectCeleste.Misc.Utils
         /// </summary>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
         public static OsVersionInfo GetOsVersionInfo()
         {
             if (_osVersionInfo != null)
@@ -61,8 +57,7 @@ namespace ProjectCeleste.Misc.Utils
         /// <param name="osInfo"></param>
         /// <exception cref="NotSupportedException"></exception>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [NotNull]
-        private static string GetOsName([NotNull] OperatingSystem osInfo)
+        private static string GetOsName(OperatingSystem osInfo)
         {
             return osInfo.Platform switch
             {
@@ -85,8 +80,7 @@ namespace ProjectCeleste.Misc.Utils
         /// </summary>
         /// <param name="osInfo"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [NotNull]
-        private static string ForWin32Windows([NotNull] OperatingSystem osInfo)
+        private static string ForWin32Windows(OperatingSystem osInfo)
         {
             //Code to determine specific version of Windows 95,  
             //Windows 98, Windows 98 Second Edition, or Windows Me. 
@@ -110,8 +104,7 @@ namespace ProjectCeleste.Misc.Utils
         /// </summary>
         /// <param name="osInfo"></param>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        [NotNull]
-        private static string ForWin32Nt([NotNull] OperatingSystem osInfo)
+        private static string ForWin32Nt(OperatingSystem osInfo)
         {
             //Code to determine specific version of Windows NT 3.51,  
             //Windows NT 4.0, Windows 2000, or Windows XP. 

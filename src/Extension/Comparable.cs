@@ -1,19 +1,14 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class ComparableExtensions
     {
-        [UsedImplicitly]
-        [Pure]
         public static bool IsWithinInclusive<T>(this T value, T minimum, T maximum) where T : IComparable<T>
         {
             return value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0;
         }
 
-        [UsedImplicitly]
-        [Pure]
         public static bool IsWithinExclusive<T>(this T value, T minimum, T maximum) where T : IComparable<T>
         {
             return value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0;
@@ -21,7 +16,6 @@ namespace ProjectCeleste.Misc.Utils.Extension
 
         #region ThrowIf
 
-        [UsedImplicitly]
         public static void ThrowIfNotWithinInclusive<T>(this T value, T minimum, T maximum, string name = null)
             where T : IComparable<T>
         {
@@ -33,7 +27,6 @@ namespace ProjectCeleste.Misc.Utils.Extension
             }
         }
 
-        [UsedImplicitly]
         public static void ThrowIfNotWithinExclusive<T>(this T value, T minimum, T maximum, string name = null)
             where T : IComparable<T>
         {
@@ -45,8 +38,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
             }
         }
 
-        [UsedImplicitly]
-        public static void ThrowIfNotEquals<T>([CanBeNull] this T value, [CanBeNull] T compareValue, string name = null)
+        public static void ThrowIfNotEquals<T>(this T value, T compareValue, string name = null)
             where T : IComparable<T>
         {
             switch (value)
@@ -67,8 +59,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
             }
         }
 
-        [UsedImplicitly]
-        public static void ThrowIfEquals<T>([CanBeNull] this T value, [CanBeNull] T compareValue, string name = null)
+        public static void ThrowIfEquals<T>(this T value, T compareValue, string name = null)
             where T : IComparable<T>
         {
             switch (value)

@@ -1,5 +1,4 @@
-﻿using JetBrains.Annotations;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
@@ -7,26 +6,19 @@ namespace ProjectCeleste.Misc.Utils.Extension
     {
         #region Xml
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T DeepCopyUsingXml<T>([NotNull] this T value) where T : class
+        public static T DeepCopyUsingXml<T>(this T value) where T : class
         {
             var xml = XmlUtils.SerializeToString(value);
             return XmlUtils.DeserializeFromString<T>(xml);
         }
 
-        [UsedImplicitly]
-        public static void SerializeToXmlFile<T>([NotNull] this T serializableObject, [NotNull] string xmlFilePath,
+        public static void SerializeToXmlFile<T>(this T serializableObject, string xmlFilePath,
             bool backup = true) where T : class
         {
             XmlUtils.SerializeToXmlFile(serializableObject, xmlFilePath, backup);
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string SerializeToXml<T>([NotNull] this T serializableObject)
+        public static string SerializeToXml<T>(this T serializableObject)
             where T : class
         {
             return XmlUtils.SerializeToString(serializableObject);
@@ -36,10 +28,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
 
         #region Json
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T DeepCopyUsingJson<T>([NotNull] this T value) where T : class
+        public static T DeepCopyUsingJson<T>(this T value) where T : class
         {
             value.ThrowIfNull(nameof(value));
 

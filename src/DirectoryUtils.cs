@@ -2,16 +2,14 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
 {
     public static class DirectoryUtils
     {
-        [UsedImplicitly]
-        public static async Task CopyDirectoryAsync([NotNull] string sourceDirectory,
-            [NotNull] string destinationDirectory,
+        public static async Task CopyDirectoryAsync(string sourceDirectory,
+            string destinationDirectory,
             CancellationToken cancellationToken = default)
         {
             sourceDirectory.ThrowIfNullOrWhiteSpace(nameof(sourceDirectory));
@@ -41,8 +39,7 @@ namespace ProjectCeleste.Misc.Utils
             });
         }
 
-        [UsedImplicitly]
-        public static void CopyDirectory([NotNull] string sourceDirectory, [NotNull] string destinationDirectory)
+        public static void CopyDirectory(string sourceDirectory, string destinationDirectory)
         {
             sourceDirectory.ThrowIfNullOrWhiteSpace(nameof(sourceDirectory));
             destinationDirectory.ThrowIfNullOrWhiteSpace(nameof(destinationDirectory));
@@ -71,8 +68,7 @@ namespace ProjectCeleste.Misc.Utils
             });
         }
 
-        [UsedImplicitly]
-        public static void CleanUpDirectory([NotNull] string sourceDirectory, [NotNull] string pattern = "*",
+        public static void CleanUpDirectory(string sourceDirectory, string pattern = "*",
             SearchOption searchOption = SearchOption.AllDirectories)
         {
             sourceDirectory.ThrowIfNullOrWhiteSpace(nameof(sourceDirectory));
@@ -93,10 +89,9 @@ namespace ProjectCeleste.Misc.Utils
             });
         }
 
-        [UsedImplicitly]
-        public static void MoveDirectory([NotNull] string sourceDirectory, [NotNull] string destinationDirectory,
+        public static void MoveDirectory(string sourceDirectory, string destinationDirectory,
             bool keepOldFile = true,
-            [NotNull] string oldFileExt = ".old")
+            string oldFileExt = ".old")
         {
             sourceDirectory.ThrowIfNullOrWhiteSpace(nameof(sourceDirectory));
             destinationDirectory.ThrowIfNullOrWhiteSpace(nameof(destinationDirectory));
@@ -126,9 +121,7 @@ namespace ProjectCeleste.Misc.Utils
             });
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static bool IsDirectory([NotNull] string path)
+        public static bool IsDirectory(string path)
         {
             path.ThrowIfNullOrWhiteSpace(nameof(path));
 

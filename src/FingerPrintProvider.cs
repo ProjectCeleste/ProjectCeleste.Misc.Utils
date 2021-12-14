@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
@@ -18,10 +17,8 @@ namespace ProjectCeleste.Misc.Utils
     /// </summary>
     public static class FingerPrintProvider
     {
-        [CanBeNull] private static string _fingerPrint;
+        private static string _fingerPrint;
 
-        [UsedImplicitly]
-        [NotNull]
         public static string GetValue()
         {
             if (_fingerPrint != null)
@@ -60,15 +57,12 @@ namespace ProjectCeleste.Misc.Utils
             return _fingerPrint;
         }
 
-        [UsedImplicitly]
-        [NotNull]
         public static async Task<string> GetValueAsync(CancellationToken ct = default)
         {
             return _fingerPrint ?? await Task.Factory.StartNew(GetValue, ct);
         }
 
-        [NotNull]
-        private static string GetHash([NotNull] string s)
+        private static string GetHash(string s)
         {
             s.ThrowIfNull(nameof(s));
 
@@ -78,8 +72,7 @@ namespace ProjectCeleste.Misc.Utils
             return GetHexString(sec.ComputeHash(bt));
         }
 
-        [NotNull]
-        private static string GetHexString([NotNull] IReadOnlyList<byte> bt)
+        private static string GetHexString(IReadOnlyList<byte> bt)
         {
             bt.ThrowIfNull(nameof(bt));
 

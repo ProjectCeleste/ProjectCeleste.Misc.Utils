@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 using ProjectCeleste.Misc.Utils.RandomGenerator;
 
@@ -9,9 +8,6 @@ namespace ProjectCeleste.Misc.Utils
 {
     public static class RandomUtils
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
         public static string RandomString(int length, bool allowDigit = true, bool allowLowerCase = false,
             bool allowSpecialChar = false)
         {
@@ -24,9 +20,6 @@ namespace ProjectCeleste.Misc.Utils
             return RandomString(length, seed, allowDigit, allowLowerCase, allowSpecialChar);
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
         public static string RandomString(int length, int seed, bool allowDigit = true, bool allowLowerCase = false,
             bool allowSpecialChar = false)
         {
@@ -47,10 +40,7 @@ namespace ProjectCeleste.Misc.Utils
                 .OrderBy(_ => random.Next()).Select(s => s[random.Next(s.Length - 1)]).ToArray());
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T RandomWithChance<T>([NotNull] params KeyValuePair<T, double>[] args)
+        public static T RandomWithChance<T>(params KeyValuePair<T, double>[] args)
         {
             args.ThrowIfNull(nameof(args));
 
@@ -74,10 +64,7 @@ namespace ProjectCeleste.Misc.Utils
             return rndList[0].Key;
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T RandomWithWeight<T>([NotNull] params KeyValuePair<T, int>[] args)
+        public static T RandomWithWeight<T>(params KeyValuePair<T, int>[] args)
         {
             args.ThrowIfNull(nameof(args));
 
@@ -91,10 +78,7 @@ namespace ProjectCeleste.Misc.Utils
                 select new KeyValuePair<T, double>(value.Key, chance)).ToArray());
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static T RandomWithoutChance<T>([NotNull] params T[] args)
+        public static T RandomWithoutChance<T>(params T[] args)
         {
             args.ThrowIfNull(nameof(args));
 

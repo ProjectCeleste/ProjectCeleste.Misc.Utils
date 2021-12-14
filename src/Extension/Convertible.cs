@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class ConvertibleExtensions
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string ToBytesSize<T>([NotNull] this T value2, bool useThreeNonZeroDigits = true)
+        public static string ToBytesSize<T>(this T value2, bool useThreeNonZeroDigits = true)
             where T : IConvertible
         {
             var value = value2.ToDecimal(new NumberFormatInfo());
@@ -38,9 +34,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
                    suffixes[suffixes.Length - 1];
         }
 
-        [NotNull]
-        [Pure]
-        private static string ThreeNonZeroDigits<T>([NotNull] T value2) where T : IConvertible
+        private static string ThreeNonZeroDigits<T>(T value2) where T : IConvertible
         {
             var value = value2.ToDecimal(new NumberFormatInfo());
             return value >= 100 ? value.ToString("0,0") : value.ToString(value >= 10 ? "0.0" : "0.00");

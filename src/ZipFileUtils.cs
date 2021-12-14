@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ionic.Zip;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 using CompressionLevel = Ionic.Zlib.CompressionLevel;
 using ZipFile = System.IO.Compression.ZipFile;
@@ -16,9 +15,8 @@ namespace ProjectCeleste.Misc.Utils
     {
         private const int BufferSize = 4 * FileUtils.Kb;
 
-        [UsedImplicitly]
         [Obsolete("Use System.IO.Compression.ZipFile.ExtractToDirectory() instead")]
-        public static void ExtractZipFile([NotNull] string archiveFileName, [NotNull] string outFolder)
+        public static void ExtractZipFile(string archiveFileName, string outFolder)
         {
             archiveFileName.ThrowIfNullOrWhiteSpace(nameof(archiveFileName));
             outFolder.ThrowIfNullOrWhiteSpace(nameof(outFolder));
@@ -45,9 +43,8 @@ namespace ProjectCeleste.Misc.Utils
             }
         }
 
-        [UsedImplicitly]
-        public static async Task ExtractZipFileAsync([NotNull] string archiveFileName, [NotNull] string outFolder,
-            [CanBeNull] IProgress<double> progress = null, CancellationToken ct = default)
+        public static async Task ExtractZipFileAsync(string archiveFileName, string outFolder,
+            IProgress<double> progress = null, CancellationToken ct = default)
         {
             archiveFileName.ThrowIfNullOrWhiteSpace(nameof(archiveFileName));
             outFolder.ThrowIfNullOrWhiteSpace(nameof(outFolder));
@@ -95,8 +92,7 @@ namespace ProjectCeleste.Misc.Utils
             }
         }
 
-        [UsedImplicitly]
-        public static void CompressDirectory([NotNull] string directory, [NotNull] string outFileName,
+        public static void CompressDirectory(string directory, string outFileName,
             CompressionLevel compressionLevel = CompressionLevel.BestCompression)
         {
             directory.ThrowIfNullOrWhiteSpace(nameof(directory));
@@ -124,9 +120,8 @@ namespace ProjectCeleste.Misc.Utils
             zip.Save(outFileName);
         }
 
-        [UsedImplicitly]
-        public static void CompressFiles([NotNull] string baseDirectory, [NotNull] string outFileName,
-            [NotNull] IEnumerable<FileInfo> fileInfos,
+        public static void CompressFiles(string baseDirectory, string outFileName,
+            IEnumerable<FileInfo> fileInfos,
             CompressionLevel compressionLevel = CompressionLevel.BestCompression)
         {
             baseDirectory.ThrowIfNullOrWhiteSpace(nameof(baseDirectory));
@@ -153,9 +148,8 @@ namespace ProjectCeleste.Misc.Utils
             zip.Save(outFileName);
         }
 
-        [UsedImplicitly]
-        public static void CompressFiles([NotNull] IEnumerable<KeyValuePair<string, string>> mappedPathsToContents,
-            [NotNull] string outFileName,
+        public static void CompressFiles(IEnumerable<KeyValuePair<string, string>> mappedPathsToContents,
+            string outFileName,
             CompressionLevel compressionLevel = CompressionLevel.BestCompression)
         {
             mappedPathsToContents.ThrowIfNull(nameof(mappedPathsToContents));

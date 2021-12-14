@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils.RandomGenerator
@@ -17,8 +15,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     Returns a nonnegative random number.
         /// </summary>
         /// <returns>A 32-bit signed integer greater than or equal to zero and less than Int32.MaxValue.</returns>
-        [UsedImplicitly]
-        [Pure]
         public static int Next()
         {
             lock (SyncLock)
@@ -35,9 +31,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     that is, the range of return values includes zero but not maxValue.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">maxValue is less than zero.</exception>
-        [UsedImplicitly]
-        [Pure]
-        public static int Next([Range(1, int.MaxValue)] int max)
+        public static int Next(int max)
         {
             lock (SyncLock)
             {
@@ -59,11 +53,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     If minValue equals maxValue, minValue is returned.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
-        [UsedImplicitly]
-        [Pure]
-        public static int Next([Range(int.MinValue, int.MaxValue - 1)]
-            int min, [Range(int.MinValue + 1, int.MaxValue)]
-            int max)
+        public static int Next(int min, int max)
         {
             lock (SyncLock)
             {
@@ -75,8 +65,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     Returns a random number between 0.0 and 1.0.
         /// </summary>
         /// <returns>A double-precision floating point number greater than or equal to 0.0, and less than 1.0.</returns>
-        [UsedImplicitly]
-        [Pure]
         public static double NextDouble()
         {
             lock (SyncLock)
@@ -90,8 +78,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         /// </summary>
         /// <param name="buffer">An array of bytes to contain random numbers.</param>
         /// <exception cref="ArgumentNullException">buffer is a null reference (Nothing in Visual Basic).</exception>
-        [UsedImplicitly]
-        public static void NextBytes([NotNull] byte[] buffer)
+        public static void NextBytes(byte[] buffer)
         {
             lock (SyncLock)
             {
@@ -103,8 +90,6 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     Returns a nonnegative random number.
         /// </summary>
         /// <returns>A 64-bit signed integer greater than or equal to zero and less than Int32.MaxValue.</returns>
-        [UsedImplicitly]
-        [Pure]
         public static long NextLong()
         {
             lock (SyncLock)
@@ -121,9 +106,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     that is, the range of return values includes zero but not maxValue.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">maxValue is less than zero.</exception>
-        [UsedImplicitly]
-        [Pure]
-        public static long NextLong([Range(1, long.MaxValue)] long max)
+        public static long NextLong(long max)
         {
             lock (SyncLock)
             {
@@ -145,11 +128,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         ///     If minValue equals maxValue, minValue is returned.
         /// </returns>
         /// <exception cref="ArgumentOutOfRangeException">minValue is greater than maxValue.</exception>
-        [UsedImplicitly]
-        [Pure]
-        public static long NextLong([Range(long.MinValue, long.MaxValue - 1)]
-            long min, [Range(long.MinValue + 1, long.MaxValue)]
-            long max)
+        public static long NextLong(long min, long max)
         {
             lock (SyncLock)
             {

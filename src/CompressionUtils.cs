@@ -3,7 +3,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
@@ -12,10 +11,7 @@ namespace ProjectCeleste.Misc.Utils
     {
         private const int CompressBufferSize = 4 * FileUtils.Kb;
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static byte[] Compress([NotNull] byte[] input,
+        public static byte[] Compress(byte[] input,
             CompressionLevel compressionLevel = CompressionLevel.Optimal)
         {
             input.ThrowIfNullOrEmpty(nameof(input));
@@ -33,8 +29,7 @@ namespace ProjectCeleste.Misc.Utils
             return output;
         }
 
-        [UsedImplicitly]
-        public static void Compress([NotNull] Stream inputStream, [NotNull] Stream outputStream,
+        public static void Compress(Stream inputStream, Stream outputStream,
             CompressionLevel compressionLevel = CompressionLevel.Optimal)
         {
             inputStream.ThrowIfNull(nameof(inputStream));
@@ -49,11 +44,8 @@ namespace ProjectCeleste.Misc.Utils
             }
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static async Task<byte[]> CompressAsync([NotNull] byte[] input,
-            CompressionLevel compressionLevel = CompressionLevel.Optimal, [CanBeNull] IProgress<double> progress = null,
+        public static async Task<byte[]> CompressAsync(byte[] input,
+            CompressionLevel compressionLevel = CompressionLevel.Optimal, IProgress<double> progress = null,
             CancellationToken ct = default)
         {
             input.ThrowIfNullOrEmpty(nameof(input));
@@ -70,9 +62,8 @@ namespace ProjectCeleste.Misc.Utils
         }
 
 
-        [UsedImplicitly]
-        public static async Task CompressAsync([NotNull] Stream inputStream, [NotNull] Stream outputStream,
-            CompressionLevel compressionLevel = CompressionLevel.Optimal, [CanBeNull] IProgress<double> progress = null,
+        public static async Task CompressAsync(Stream inputStream, Stream outputStream,
+            CompressionLevel compressionLevel = CompressionLevel.Optimal, IProgress<double> progress = null,
             CancellationToken ct = default)
         {
             inputStream.ThrowIfNull(nameof(inputStream));
@@ -108,10 +99,7 @@ namespace ProjectCeleste.Misc.Utils
             }
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static byte[] Decompress([NotNull] this byte[] input)
+        public static byte[] Decompress(this byte[] input)
         {
             input.ThrowIfNull(nameof(input));
 
@@ -126,8 +114,7 @@ namespace ProjectCeleste.Misc.Utils
             return output;
         }
 
-        [UsedImplicitly]
-        public static void Decompress([NotNull] Stream inputStream, [NotNull] Stream outputStream)
+        public static void Decompress(Stream inputStream, Stream outputStream)
         {
             inputStream.ThrowIfNull(nameof(inputStream));
             outputStream.ThrowIfNull(nameof(outputStream));
@@ -141,11 +128,8 @@ namespace ProjectCeleste.Misc.Utils
             }
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static async Task<byte[]> DecompressAsync([NotNull] this byte[] input,
-            [CanBeNull] IProgress<double> progress = null, CancellationToken ct = default)
+        public static async Task<byte[]> DecompressAsync(this byte[] input,
+            IProgress<double> progress = null, CancellationToken ct = default)
         {
             input.ThrowIfNull(nameof(input));
 
@@ -160,9 +144,8 @@ namespace ProjectCeleste.Misc.Utils
             return output;
         }
 
-        [UsedImplicitly]
-        public static async Task DecompressAsync([NotNull] Stream inputStream, [NotNull] Stream outputStream,
-            [CanBeNull] IProgress<double> progress = null, CancellationToken ct = default)
+        public static async Task DecompressAsync(Stream inputStream, Stream outputStream,
+            IProgress<double> progress = null, CancellationToken ct = default)
         {
             inputStream.ThrowIfNull(nameof(inputStream));
             outputStream.ThrowIfNull(nameof(outputStream));

@@ -2,25 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class EnumerableExtensions
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static IEnumerable<T> EmptyIfNull<T>([NoEnumeration] [ItemNotNull] this IEnumerable<T> source)
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source)
         {
             return source ?? Enumerable.Empty<T>();
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string ToStringList([NotNull] [ItemNotNull] this IEnumerable<string> source,
-            [NotNull] string separator = ",")
+        public static string ToStringList(this IEnumerable<string> source,
+            string separator = ",")
         {
             separator.ThrowIfNullOrEmpty(nameof(separator));
 
@@ -39,10 +32,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
             return list;
         }
 
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
-        public static string ToStringFormat<T>([NotNull] [ItemNotNull] this IEnumerable<T> source)
+        public static string ToStringFormat<T>(this IEnumerable<T> source)
         {
             var enumerable = source as T[] ?? source.ToArray();
             if (enumerable.Length == 0)
@@ -109,9 +99,7 @@ namespace ProjectCeleste.Misc.Utils.Extension
         /// <param name="data">The item to check for nullity.</param>
         /// <param name="name">The name to use when throwing an exception, if necessary</param>
         /// <exception cref="ArgumentNullException"><paramref name="data" /> is <c>null</c>.</exception>
-        [UsedImplicitly]
-        [ContractAnnotation("data:null => halt")]
-        public static void ThrowIfNullOrEmpty<T>([CanBeNull] this IEnumerable<T> data, string name = null)
+        public static void ThrowIfNullOrEmpty<T>(this IEnumerable<T> data, string name = null)
         {
             if (data?.Any() != true)
             {

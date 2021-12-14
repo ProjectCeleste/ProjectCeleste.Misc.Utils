@@ -1,13 +1,9 @@
 ﻿using System;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.Extension
 {
     public static class TimeSpanExtensions
     {
-        [UsedImplicitly]
-        [NotNull]
-        [Pure]
         public static string ToStringReadable(this TimeSpan span)
         {
             var formatted =

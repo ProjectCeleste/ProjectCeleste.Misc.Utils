@@ -1,35 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using JetBrains.Annotations;
 
 namespace ProjectCeleste.Misc.Utils.RandomGenerator
 {
-    [UsedImplicitly]
     public class UniqueRandomIntGeneratorAlt
     {
         private  IList<int> _excludeNumbers;
         private readonly UniqueRandomIntGenerator _uniqueRandomIntGenerator;
 
-        public UniqueRandomIntGeneratorAlt([Range(int.MinValue, int.MaxValue - 1)]
-            int min = int.MinValue, [Range(int.MinValue + 1, int.MaxValue)]
+        public UniqueRandomIntGeneratorAlt(
+            int min = int.MinValue,
             int max = int.MaxValue,
-            [CanBeNull] IEnumerable<int> excludeNumbers = null)
+            IEnumerable<int> excludeNumbers = null)
         {
             _uniqueRandomIntGenerator = new UniqueRandomIntGenerator(min, max);
             _excludeNumbers = excludeNumbers as List<int> ?? excludeNumbers?.ToList() ?? new List<int>();
         }
 
-        [UsedImplicitly]
-        [Pure]
         public int Next()
         {
            return _uniqueRandomIntGenerator.Next(ref _excludeNumbers);
         }
     }
 
-    [UsedImplicitly]
     public class UniqueRandomIntGenerator
     {
         private readonly int _randomMaxReTry = 25000 * Environment.ProcessorCount;
@@ -38,8 +32,8 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
         private readonly int _maxValue;
         private Random _random;
 
-        public UniqueRandomIntGenerator([Range(int.MinValue, int.MaxValue - 1)]
-            int min = int.MinValue, [Range(int.MinValue + 1, int.MaxValue)]
+        public UniqueRandomIntGenerator(
+            int min = int.MinValue,
             int max = int.MaxValue)
         {
             if (min > max)
@@ -57,9 +51,7 @@ namespace ProjectCeleste.Misc.Utils.RandomGenerator
             _random = new Random(r.Next(int.MinValue, int.MaxValue));
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public int Next([NotNull] ref IList<int> excludeNumbers)
+        public int Next(ref IList<int> excludeNumbers)
         {
             lock (_syncLock)
             {

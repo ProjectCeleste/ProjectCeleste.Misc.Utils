@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Force.Crc32;
-using JetBrains.Annotations;
 using ProjectCeleste.Misc.Utils.Extension;
 
 namespace ProjectCeleste.Misc.Utils
@@ -12,9 +11,7 @@ namespace ProjectCeleste.Misc.Utils
     {
         private const int BufferSize = 4 * FileUtils.Kb;
 
-        [UsedImplicitly]
-        [Pure]
-        public static uint GetCrc32([NotNull] byte[] data)
+        public static uint GetCrc32(byte[] data)
         {
             data.ThrowIfNull(nameof(data));
 
@@ -22,9 +19,7 @@ namespace ProjectCeleste.Misc.Utils
             return GetCrc32FromStream(fs);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static uint GetCrc32FromFile([NotNull] string fileName)
+        public static uint GetCrc32FromFile(string fileName)
         {
             fileName.ThrowIfNullOrWhiteSpace(nameof(fileName));
 
@@ -36,9 +31,7 @@ namespace ProjectCeleste.Misc.Utils
             return GetCrc32FromStream(fs);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static uint GetCrc32FromStream([NotNull] Stream stream)
+        public static uint GetCrc32FromStream(Stream stream)
         {
             stream.ThrowIfNull(nameof(stream));
 
@@ -53,10 +46,8 @@ namespace ProjectCeleste.Misc.Utils
             return result;
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static async Task<uint> GetCrc32Async([NotNull] byte[] data,
-            [CanBeNull] IProgress<double> progress = null,
+        public static async Task<uint> GetCrc32Async(byte[] data,
+            IProgress<double> progress = null,
             CancellationToken ct = default)
         {
             data.ThrowIfNull(nameof(data));
@@ -65,10 +56,8 @@ namespace ProjectCeleste.Misc.Utils
             return await GetCrc32FromStreamAsync(fs, progress, ct);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static async Task<uint> GetCrc32FromFileAsync([NotNull] string fileName,
-            [CanBeNull] IProgress<double> progress = null,
+        public static async Task<uint> GetCrc32FromFileAsync(string fileName,
+            IProgress<double> progress = null,
             CancellationToken ct = default)
         {
             fileName.ThrowIfNullOrWhiteSpace(nameof(fileName));
@@ -81,10 +70,8 @@ namespace ProjectCeleste.Misc.Utils
             return await GetCrc32FromStreamAsync(fs, progress, ct);
         }
 
-        [UsedImplicitly]
-        [Pure]
-        public static async Task<uint> GetCrc32FromStreamAsync([NotNull] Stream stream,
-            [CanBeNull] IProgress<double> progress = null,
+        public static async Task<uint> GetCrc32FromStreamAsync(Stream stream,
+            IProgress<double> progress = null,
             CancellationToken ct = default)
         {
             stream.ThrowIfNull(nameof(stream));
