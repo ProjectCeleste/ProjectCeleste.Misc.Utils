@@ -80,7 +80,7 @@ namespace ProjectCeleste.Misc.Helper.Tests
             var deserializedObj = XmlUtils.DeserializeFromString<SampleXmlDataWithStringWrapper>(xml);
 
             // Assert
-            deserializedObj.Should().BeEquivalentTo(expected);
+            deserializedObj.Should().BeEquivalentTo(expected, opt => opt.Excluding(t => t.Content.Items));
         }
 
         [Fact]
