@@ -55,6 +55,77 @@ namespace ProjectCeleste.Misc.Helper.Tests
             serialized.Should().Be(expected.ToXml());
         }
 
+        [Fact]
+        public void CanSerializeFromXmlSerializable()
+        {
+            // Arrange
+            var listItems = new[] { "foo", "don", "bar" };
+
+            var expected = new SampleXmlDataWithWrapperTypeWrapper
+            {
+                Content = new SerializableStringList(listItems)
+            };
+
+            var xmlSerializedObj = new SampleXmlDataWithStringWrapper
+            {
+                Content = new SampleXmlDataWithString
+                {
+                    Content = listItems.ToStringList()
+                }
+            };
+
+            var xml = xmlSerializedObj.ToXml();
+
+            // Act
+            var deserializedObj = XmlUtils.DeserializeFromString<SampleXmlDataWithStringWrapper>(xml);
+
+            // Assert
+            deserializedObj.Should().BeEquivalentTo(expected);
+        }
+
+        [Fact]
+        public void CanSerializeToXmlSerializable()
+        {
+            // Arrange
+            var listItems = new[] { "foo", "don", "bar" };
+            var obj = new SampleXmlDataWithWrapperTypeWrapper
+            {
+                Content = new SerializableStringList(listItems)
+            };
+
+            var expected = new SampleXmlDataWithStringWrapper
+            {
+                Content = new SampleXmlDataWithString
+                {
+                    Content = listItems.ToStringList()
+                }
+            };
+
+            // Act
+            var serialized = obj.ToXml();
+
+            // Assert
+            serialized.Should().Be(expected.ToXml());
+        }
+
+        [XmlRoot(ElementName = "data")]
+        public class SampleXmlDataWithWrapperTypeWrapperWrapper
+        {
+
+            [XmlElement(ElementName = "blah")]
+            public SerializableStringList Content { get; set; }
+        }
+
+
+        [XmlRoot(ElementName = "data2")]
+        public class SampleXmlDataWithWrapperTypeWrapper
+        {
+
+            [XmlElement(ElementName = "blah")]
+            public SerializableStringList Content { get; set; }
+        }
+
+
         [XmlRoot(ElementName = "data")]
         public class SampleXmlDataWithWrapperType
         {
@@ -69,6 +140,14 @@ namespace ProjectCeleste.Misc.Helper.Tests
 
             [XmlIgnore]
             public SerializableStringList Content { get; set; }
+        }
+
+
+        [XmlRoot(ElementName = "data2")]
+        public class SampleXmlDataWithStringWrapper
+        {
+            [XmlElement(ElementName = "blah")]
+            public SampleXmlDataWithString Content { get; set; }
         }
 
         [XmlRoot(ElementName = "data")]

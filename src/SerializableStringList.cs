@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Schema;
+using System.Xml.Serialization;
 
 namespace Celeste.Misc.Utils
 {
-    public class SerializableStringList
+    public class SerializableStringList : IXmlSerializable
     {
-        private readonly IList<string> _items;
+        private IList<string> _items;
+
+        public SerializableStringList()
+        {
+            _items = new List<string>();
+        }
 
         public SerializableStringList(IList<string> items)
         {
@@ -14,10 +22,27 @@ namespace Celeste.Misc.Utils
 
         public SerializableStringList(string str)
         {
-            _items = str
+            _items = Parse(str);
+        }
+
+        public XmlSchema GetSchema() => null;
+
+        public void ReadXml(XmlReader reader)
+        {
+            _items = Parse(reader.ReadString());
+        }
+
+        private IList<string> Parse(string value)
+        {
+            return value
                 .Split(',')
                 .Where(str => !string.IsNullOrWhiteSpace(str))
                 .ToList();
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteString(_items.ToStringList());
         }
 
         public string SerializeList() => _items.ToStringList();
