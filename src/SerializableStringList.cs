@@ -8,28 +8,29 @@ namespace Celeste.Misc.Utils
 {
     public class SerializableStringList : IXmlSerializable
     {
-        private IList<string> _items;
+        [XmlIgnore]
+        public IList<string> Items { get; private set; }
 
         public SerializableStringList()
         {
-            _items = new List<string>();
+            Items = new List<string>();
         }
 
         public SerializableStringList(IList<string> items)
         {
-            _items = items;
+            Items = items;
         }
 
         public SerializableStringList(string str)
         {
-            _items = Parse(str);
+            Items = Parse(str);
         }
 
         public XmlSchema GetSchema() => null;
 
         public void ReadXml(XmlReader reader)
         {
-            _items = Parse(reader.ReadString());
+            Items = Parse(reader.ReadString());
         }
 
         private IList<string> Parse(string value)
@@ -42,9 +43,9 @@ namespace Celeste.Misc.Utils
 
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteString(_items.ToStringList());
+            writer.WriteString(Items.ToStringList());
         }
 
-        public string SerializeList() => _items.ToStringList();
+        public string SerializeList() => Items.ToStringList();
     }
 }
