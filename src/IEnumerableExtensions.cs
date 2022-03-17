@@ -8,14 +8,10 @@ namespace Celeste.Misc.Utils
     {
         public static string ToStringList<T>(this IEnumerable<T> value)
         {
-            if (value == null)
+            if (value == null || !value.Any())
                 return string.Empty;
 
-            var enumerable = value as T[] ?? value.ToArray();
-            if (!enumerable.Any())
-                return string.Empty;
-
-            var list = enumerable.Aggregate(string.Empty, (current, str) => current + str + ",");
+            var list = value.Aggregate(string.Empty, (current, str) => current + str + ",");
             if (list.EndsWith(","))
                 list = list.Substring(0, list.Length - 1);
 
