@@ -65,12 +65,12 @@ namespace ProjectCeleste.Misc.Utils.Container
 
         public event EventHandler<T2> OnRemoved;
 
-        protected internal bool Remove(T1 key)
+        public bool Remove(T1 key)
         {
             return Remove(key, out _);
         }
 
-        protected internal bool Remove(T1 key, out T2 @out)
+        public bool Remove(T1 key, out T2 @out)
         {
             if (!Values.TryRemove(key, out @out))
                 return false;
@@ -82,7 +82,7 @@ namespace ProjectCeleste.Misc.Utils.Container
 
         public event EventHandler<T2> OnAdd;
 
-        protected internal bool Add(T2 value, Func<T2, T1> keySelector)
+        public bool Add(T2 value, Func<T2, T1> keySelector)
         {
             var key = keySelector(value);
             if (!Values.TryAdd(key, value))
@@ -95,7 +95,7 @@ namespace ProjectCeleste.Misc.Utils.Container
 
         public event EventHandler<T2> OnUpdated;
 
-        protected internal bool Update(T2 value, Func<T2, T1> keySelector)
+        public bool Update(T2 value, Func<T2, T1> keySelector)
         {
             var key = keySelector(value);
 
@@ -110,7 +110,7 @@ namespace ProjectCeleste.Misc.Utils.Container
             return true;
         }
 
-        protected internal void Clear()
+        public void Clear()
         {
             Values.Clear();
         }
