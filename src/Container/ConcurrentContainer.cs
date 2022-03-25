@@ -13,7 +13,7 @@ namespace ProjectCeleste.Misc.Utils.Container
 {
     public class ConcurrentContainer<T1, T2>
     {
-        [XmlIgnore] [JsonIgnore] protected internal readonly ConcurrentDictionary<T1, T2> Values;
+        [XmlIgnore] [JsonIgnore] public ConcurrentDictionary<T1, T2> Values { get; }
 
         public ConcurrentContainer()
         {
