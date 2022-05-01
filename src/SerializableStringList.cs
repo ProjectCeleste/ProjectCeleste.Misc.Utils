@@ -31,6 +31,7 @@ namespace Celeste.Misc.Utils
         public void ReadXml(XmlReader reader)
         {
             Items = Parse(reader.ReadString());
+            reader.ReadEndElement();
         }
 
         private IList<string> Parse(string value)
